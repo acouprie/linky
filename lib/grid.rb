@@ -24,7 +24,6 @@ class Grid < Square
   end
 
   def draw_grid
-    tiles = []
     y = @y
     @columns.times do
       x = @x

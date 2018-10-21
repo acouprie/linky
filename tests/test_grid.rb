@@ -17,7 +17,7 @@ class TestGrid < Test::Unit::TestCase
 
   def test_out_of_grid
     lvl = Level.new
-    tiles = lvl.create
+    lvl.create
     event = Ruby2D::Window::MouseEvent.new
     event.x = lvl.grid.x - 10
     event.y = lvl.grid.y - 10
