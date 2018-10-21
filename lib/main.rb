@@ -13,7 +13,7 @@ on :mouse do |event|
     end
   when :up
     @down = false
-    level.mouse_up(event)
+    level.remove_line(event)
   when :down
     @down = true
     level.mouse_down(event)
