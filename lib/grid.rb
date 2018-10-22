@@ -33,7 +33,7 @@ class Grid < Square
   	      y: y,
           size: @tile_size,
           color: 'navy'
-	      )
+        )
         x += @tile_size + @margin
       end
       y += @tile_size + @margin
@@ -64,7 +64,7 @@ class Grid < Square
       tile.dot = Circle.new(
         x: points_x,
         y: points_y,
-	radius: 33,
+	      radius: 33,
         sectors: 32,
         color: color,
       )

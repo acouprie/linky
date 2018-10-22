@@ -24,33 +24,23 @@ class Level < Window
     self.line = []
     self.grid.tiles
   end
- 
-  def find_tile_by_color(color_name)
-    result = []
-    color = Color.new(color_name)
-    self.grid.tiles.each do |tile|
-      if same_color(color, tile.color)
-        result << tile
-      end
-    end
-    result
+  
+  def win
+    return false unless find_tile_by_color(Color.new('navy')).empty?
+    self.close
   end
 
   def mouse_down(event)
-    type = event.type.to_s
-    return unless type = 'move' || type = 'down'
-    free_tiles = find_tile_by_color('navy')
+    return unless event.type = :move || event.button == :left
     self.grid.tiles.each do |tile|
+      free_tiles = find_tile_by_color(Color.new('navy'))
       draw_line(tile) if tile.contains?(event.x, event.y) && free_tiles.include?(tile)
     end
   end
   
   def draw_line(tile)
     return if self.line.include?(tile)
-    if (self.line.empty? && !tile.dot.nil?) ||
-      beside(tile) &&
-      tile.dot.nil? ||
-      same_color(self.line.first&.dot&.color, tile&.dot&.color)
+    if draw_line_conditions(tile)
       self.line << tile
     end
     color_tile
@@ -60,6 +50,21 @@ class Level < Window
     return if self.line.empty?
     dot_color = self.line.first.dot.color
     self.line.last.color = [dot_color.r, dot_color.g, dot_color.b, 0.5]
+  end
+
+  def erase_line(event)
+    return unless event.button == :right
+    line = []
+    self.grid.tiles.each do |tile|
+      if tile.contains?(event.x, event.y)
+        line = find_tile_by_color(tile.color)
+        line.each do |tile|
+          tile.color = 'navy'
+        end
+        return true
+      end
+    end
+    false
   end
    
   def remove_line(event)
@@ -112,6 +117,24 @@ class Level < Window
   def same_color(color_1, color_2)
     return false unless color_1 && color_2
     return true if color_1.r == color_2.r && color_1.b == color_2.b && color_1.g == color_2.g
+    false
+  end
+  
+  def find_tile_by_color(color)
+    result = []
+    self.grid.tiles.each do |tile|
+      if same_color(color, tile.color)
+        result << tile
+      end
+    end
+    result
+  end
+
+  def draw_line_conditions(tile)
+    return true if self.line.empty? && !tile.dot.nil? ||
+      beside(tile) &&
+      (tile.dot.nil? ||
+      same_color(self.line.first&.dot&.color, tile&.dot&.color))
     false
   end
 end

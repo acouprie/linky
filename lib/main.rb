@@ -18,6 +18,11 @@ on :mouse do |event|
     @down = true
     level.mouse_down(event)
   end
+  level.erase_line(event) if event.button == :right
+end
+
+update do
+  level.win
 end
 
 level.show
