@@ -7,8 +7,7 @@ require_relative 'tile'
 require_relative 'levels/dots_position'
 
 class Level < Window
-  attr_accessor :grid
-  attr_accessor :line
+  attr_accessor :grid, :line
 
   def draw_grid(level=nil)
     @level = level || 0
@@ -91,12 +90,12 @@ class Level < Window
 
   def up_of(tile)
     return false if @line.last.nil?
-    @tiles.index(@line.last) - @grid.rows == @tiles.index(tile)
+    @tiles.index(@line.last) - @grid.grid_size == @tiles.index(tile)
   end
   
   def down_of(tile)
     return false if @line.last.nil?
-    @tiles.index(@line.last) + @grid.rows == @tiles.index(tile)
+    @tiles.index(@line.last) + @grid.grid_size == @tiles.index(tile)
   end
   
   def left_of(tile)

@@ -2,20 +2,13 @@ require 'ruby2d'
 require_relative 'tile'
 
 class Grid < Square
-  attr_accessor :tiles
-  attr_accessor :dots
-  attr_accessor :rows
-  attr_accessor :columns
-  attr_accessor :x
-  attr_accessor :y
-  attr_accessor :tile_size
-  attr_accessor :margin
+  attr_accessor :tiles, :dots
+  attr_reader :grid_size, :x, :y, :tile_size, :margin
   
   def initialize(params)
     @tiles = []
     @dots = params[:dots]
-    @rows = params[:rows] ||= 5
-    @columns = params[:columns] ||= 5
+    @grid_size = params[:grid_size] ||= 5
     @x = params[:x] ||= 60
     @y = params[:y] ||= 60
     @tile_size = params[:tile_size] ||= 100
@@ -25,9 +18,9 @@ class Grid < Square
 
   def draw_grid
     y = @y
-    @columns.times do
+    @grid_size.times do
       x = @x
-      @rows.times do
+      @grid_size.times do
         @tiles << Tile.new(
           x: x,
   	      y: y,

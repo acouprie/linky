@@ -4,7 +4,7 @@ require 'test/unit'
 class TestGrid < Test::Unit::TestCase
   def test_number_of_tiles
     lvl = Level.new
-    lvl.grid = Grid.new( { rows: 5, columns: 5, dots: {} } )
+    lvl.grid = Grid.new( { grid_size: 5, dots: {} } )
     assert_equal(25, lvl.grid.tiles.size)
   end
 
