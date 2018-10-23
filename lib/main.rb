@@ -3,7 +3,7 @@ require_relative 'level'
 
 @down = false
 level = Level.new
-tiles = level.create
+return unless level.draw_grid
 
 on :mouse do |event|
   case event.type

@@ -4,13 +4,27 @@ require 'test/unit'
 class TestLevel < Test::Unit::TestCase
   def test_create_level
     lvl = Level.new
-    return true if lvl.create
-    false
+    assert lvl.draw_grid
+  end
+
+  def test_win
+    lvl = Level.new
+    lvl.draw_grid
+    lvl.grid.tiles.each do |tile|
+      tile.color = 'red'
+    end
+    assert lvl.win
+  end
+
+  def test_no_win
+    lvl = Level.new
+    lvl.draw_grid
+    assert !lvl.win
   end
 
   def test_valid_line
     lvl = Level.new
-    lvl.create
+    lvl.draw_grid
     lvl.line = [lvl.grid.tiles[0], lvl.grid.tiles[23]]
     event = Ruby2D::Window::MouseEvent.new
     event.x = lvl.grid.tiles[23].x + 10
@@ -20,7 +34,7 @@ class TestLevel < Test::Unit::TestCase
 
   def test_only_one_dot_line
     lvl = Level.new
-    lvl.create
+    lvl.draw_grid
     assert lvl.line_check
   end
 
@@ -39,7 +53,7 @@ class TestLevel < Test::Unit::TestCase
 
   def test_erase_line
     lvl = Level.new
-    lvl.create
+    lvl.draw_grid
     lvl.line = [lvl.grid.tiles[0], lvl.grid.tiles[23]]
     event = Ruby2D::Window::MouseEvent.new
     event.x = lvl.grid.tiles[23].x + 10
